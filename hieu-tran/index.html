@@ -9,12 +9,30 @@
   <title>Hieu Tran · Mein Weg in der Gastronomie</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23102e3b'/%3E%3Cpath d='M18 15h8v13h12V15h8v34h-8V36H26v13h-8z' fill='%23f2c94c'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
+<style>
+.masthead{gap:1rem;flex-wrap:wrap}.masthead nav{flex-wrap:wrap}
+.school-checklist{max-width:var(--max);margin:auto;padding:4.5rem 3.6rem;background:#fff}
+.school-checklist h2{font-size:clamp(2rem,4vw,3.15rem);line-height:1.12;letter-spacing:-.045em}
+.checklist-lead{margin:1.2rem 0 1.5rem;color:var(--muted);font-size:1rem}
+.checklist-status{padding:1rem 1.2rem;background:var(--navy);color:var(--gold);font-size:.875rem;line-height:1.6}
+.school-questions{list-style:none;padding:0;margin:1.8rem 0 0}
+.school-question{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:1rem;padding:1.5rem 0;border-top:1px solid var(--line)}
+.question-state{display:flex;align-items:center;justify-content:center;width:1.8rem;height:1.8rem;background:var(--navy);color:var(--gold);font-size:1.1rem;line-height:1;margin-top:.1rem}
+.question-label{font-size:.875rem;color:var(--muted);margin:0 0 .45rem;line-height:1.5}
+.school-question h3{font-size:1.2rem;line-height:1.45;font-weight:600;max-width:48rem}
+.question-answer{margin:.8rem 0 0;font-size:1rem;line-height:1.7;color:#405761}
+.answer-link{display:inline-block;margin-top:.6rem;padding:.5rem 0;text-decoration:underline;text-underline-offset:.2em;font-size:1rem;line-height:1.5}
+.school-question.is-open{background:#fff6d5;padding:1.4rem 1rem;margin-top:1rem;border:1px solid #ddc873}.is-open .question-state{background:var(--gold);color:var(--navy)}
+@media(max-width:800px){.school-checklist{padding:3.5rem 2rem}}
+@media(max-width:600px){.school-checklist{padding:3rem 1.5rem}.school-question{gap:.7rem;grid-template-columns:1.8rem minmax(0,1fr)}.school-question h3{font-size:1.08rem}.masthead nav{gap:.75rem}.school-question.is-open{padding:1rem .75rem}}
+@media print{.school-checklist{max-width:none;padding:2rem}.school-question{break-inside:avoid}}
+</style>
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
   <header class="masthead">
     <a class="brand" href="#start" aria-label="Hieu Tran, zum Anfang">HT<span>Hieu Tran</span></a>
-    <nav aria-label="Seitennavigation"><a href="#alltag">Mein Alltag</a><a href="#ziele">Meine Ziele</a></nav>
+    <nav aria-label="Seitennavigation"><a href="#checkliste">Checkliste</a><a href="#alltag">Mein Alltag</a><a href="#ziele">Meine Ziele</a></nav>
   </header>
 
   <main id="inhalt">
@@ -63,6 +81,25 @@
       <h2 id="goals-heading">Aus Erfahrung<br><em>weiterwachsen.</em></h2>
       <p class="goals-intro">Ich möchte praktische Erfahrungen sammeln und mich persönlich weiterentwickeln.</p>
       <div class="goal-grid"><article><span>Lernziel 01</span><h3>Getränke zubereiten</h3><p>Ich möchte lernen, Getränke an der Theke zuzubereiten.</p></article><article><span>Lernziel 02</span><h3>Abläufe verstehen</h3><p>Ich möchte mehr über die Organisation des Betriebs lernen.</p></article></div>
+    </section>
+
+    <section class="school-checklist" id="checkliste" aria-labelledby="checklist-heading">
+      <p class="eyebrow"><span>05</span> Mein Arbeitsplatz Gastronomie</p>
+      <h2 id="checklist-heading">Checkliste zum Steckbrief</h2>
+      <p class="checklist-lead">Die zehn Fragen aus der Schulaufgabe. Die Verweise führen zu den passenden Antworten auf dieser Seite.</p>
+      <p class="checklist-status"><strong>8 Fragen abgedeckt · 2 Antworten noch offen</strong></p>
+      <ol class="school-questions">
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 01</p><h3>Was für eine Ausbildung mache ich?</h3><a class="answer-link" href="#start">Meine Ausbildung ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 02</p><h3>Wo mache ich meine Ausbildung?</h3><a class="answer-link" href="#start">Mein Ausbildungsbetrieb ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 03</p><h3>Warum mache ich in der Gastronomie meine Ausbildung?</h3><a class="answer-link" href="#ueber-mich">Meine Motivation ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 04</p><h3>Welche Aufgaben und Aufgabenbereiche habe ich in meinem Beruf?</h3><a class="answer-link" href="#alltag">Meine Aufgaben ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 05</p><h3>Was macht mir an meinem Beruf Spaß?</h3><a class="answer-link" href="#ueber-mich">Freude am Beruf ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 06</p><h3>Was ist aus meiner Sicht am wichtigsten in meinem Beruf?</h3><a class="answer-link" href="#values-heading">Meine Haltung ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 07</p><h3>Was will ich lernen in meinem Beruf?</h3><a class="answer-link" href="#ziele">Meine Lernziele ansehen</a></div></li>
+        <li class="school-question"><span class="question-state" aria-label="Inhalt vorhanden">✓</span><div><p class="question-label">Frage 08</p><h3>Was wünsche ich mir für meine Ausbildung?</h3><a class="answer-link" href="#ziele">Meine Wünsche ansehen</a></div></li>
+        <li class="school-question is-open"><span class="question-state" aria-label="Antwort noch offen">○</span><div><p class="question-label">Frage 09</p><h3>Warum bin ich richtig und wichtig in meinem Ausbildungsbetrieb?</h3><p class="question-answer">Antwort noch zu ergänzen.</p></div></li>
+        <li class="school-question is-open"><span class="question-state" aria-label="Antwort noch offen">○</span><div><p class="question-label">Frage 10</p><h3>Welche Weiterbildungsmöglichkeiten strebe ich nach der Ausbildung an?</h3><p class="question-answer">Antwort noch zu ergänzen.</p></div></li>
+      </ol>
     </section>
   </main>
   <footer><div><strong>Hieu Tran</strong><span>Fachkraft in der Gastronomie in Ausbildung</span></div><a href="#start">Zurück zum Anfang</a></footer>
