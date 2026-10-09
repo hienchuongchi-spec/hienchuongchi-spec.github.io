@@ -1,33 +1,30 @@
-# Travel Wheel – Nhập tên và quay
+# Vòng quay du lịch — lưu chung tên và kết quả
 
-Website: https://hienchuongchi-spec.github.io/travel-wheel/
+## Website
+https://hienchuongchi-spec.github.io/quay-du-lich/
 
-## Cách dùng
-- Người tham gia **nhập tên → Quay ngay → kết quả hiện trên vòng quay**.
-- 4 ô, mỗi ô xác suất 25%: München · Düsseldorf & Köln · Berlin & Prague · Hamburg.
-- Tên đã quay trên **cùng trình duyệt** sẽ luôn hiện kết quả cũ. Danh sách đã lưu trên thiết bị hiển thị bên dưới.
-- **Không cần đăng nhập Google.**
+## Cách sử dụng
+Người tham gia nhập tên, bấm **QUAY NGAY**, xem kết quả và danh sách **Kết quả mọi người đã quay** ngay trên web. Có 4 lựa chọn 25%: München · Düsseldorf & Köln · Berlin & Prague · Hamburg.
 
-## Trạng thái lưu kết quả
-### Sử dụng ngay (không cài đặt)
-Trình duyệt lưu kết quả trong `localStorage`, không bị mất chỉ vì tải lại trang. **Chỉ lưu trên máy đó**, không thể tự xem chung giữa nhiều người/máy, và có thể mất khi người dùng xóa dữ liệu trình duyệt. Đây không phải hạn chế chặt chẽ mỗi người một lần.
+**Không cần tài khoản Google.** Tuy nhiên, kết quả **chỉ được tạo khi Firestore đang hoạt động** để tránh việc quay xong mà ban tổ chức không thấy.
 
-### Lưu chung cho tất cả người tham gia (Firebase Firestore)
-Cấu hình web app Firebase trong `firebase-config.js` đã được điền cho project **reise-3ae64**.
+## BẮT BUỘC bật Firestore để lưu cho mọi người
+Dự án Firebase dùng sẵn là `reise-3ae64`, file `firebase-config.js` đã được cấu hình.
 
-**Chủ project vẫn phải làm 2 bước trong Firebase Console:**
-1. Vào https://console.firebase.google.com/project/reise-3ae64/firestore → **Create database**, tạo Firestore nếu chưa có (Production mode).
-2. Vào tab **Rules** → thay thế bằng toàn bộ nội dung `travel-wheel/firestore.rules` → **Publish**. Nếu bạn dùng cùng Firestore cho các collection khác, hãy hợp nhất rules thay vì ghi đè.
+1. Mở https://console.firebase.google.com/project/reise-3ae64/firestore
+2. Nếu chưa có database: **Create database** → chọn vị trí → **Production mode** → Create.
+3. Trong Firestore → **Rules**, dùng TOÀN BỘ file `travel-wheel/firestore.rules` trên GitHub và nhấn **Publish**. Lưu ý nếu trong database có rules/collections khác đang dùng, hãy gộp thay vì ghi đè.
+4. Mở lại website. Phải thấy thông báo **Sẵn sàng! Kết quả sẽ được lưu chung vào Firebase.** Nếu hiện **CHƯA BẬT LƯU CHUNG** thì Firestore/rules vẫn chưa hoạt động.
 
-Sau đó người tham gia chỉ cần nhập tên. Website sẽ kiểm tra document ID SHA-256 của tên chuẩn hóa: lần đầu được tạo; tên đã có kết quả sẽ xem kết quả cũ. Kết quả lưu vào collection `travelNameSpins` (Firestore Console → Data). Firebase không yêu cầu bật Google Sign-in.
+File rules **cho phép xem công khai danh sách 100 kết quả mới nhất** (tên và thành phố) vì chủ website muốn mọi người cùng thấy tên đã quay. Người quản trị xem mọi dữ liệu qua Firebase Console → Firestore Database → Data → `travelNameSpins`.
 
-**Nếu chưa bật Firestore hoặc Rules bị chặn, website vẫn dùng localStorage** và có thông báo rõ `Lưu trên thiết bị`.
+## Kết quả cũ trước khi bật Firestore
+Website phiên bản trước chỉ lưu tên trên máy người chơi (`localStorage`). Sau khi Firestore sẵn sàng, **khi chính người đó mở lại website trên trình duyệt cũ**, trang sẽ cố đồng bộ dữ liệu cũ vào Firestore mà không quay lại. Người chơi khác không thể lấy các kết quả chưa đồng bộ từ một thiết bị xa.
 
-## Giới hạn và cảnh báo
-- **Tên không xác thực danh tính**: một người có thể nhập tên khác để quay nhiều lần; hai người trùng tên sẽ dùng cùng kết quả. Không thể ngăn gian lận thực sự chỉ với nhập tên.
-- Với Firebase công khai không có đăng nhập, người khác có thể tự gửi yêu cầu tạo bản ghi nếu biết API/cấu trúc dữ liệu và gây phát sinh số lượng bản ghi/billing; rules hạn chế định dạng và chặn sửa/xóa, **không chống spam hoặc đảm bảo vòng quay trung thực**. Hãy theo dõi Firestore usage/thiết lập hạn mức ngân sách; nếu đông người hoặc có giải thưởng giá trị, cần backend tin cậy và cơ chế giới hạn.
-- Random hiện được tạo từ `crypto.getRandomValues()` trong trình duyệt trước khi lưu, có thể bị người dùng kỹ thuật tác động. Không dùng cho xổ số/giải thưởng cần chứng minh công bằng.
-- Chỉ nhập tên mà bạn đồng ý được lưu, và không dùng thông tin nhạy cảm. Document có tên và kết quả.
-- Tên bị chuẩn hóa để so trùng (chuyển chữ thường, gộp khoảng trắng, unicode NFKC). Người tổ chức có thể xem kết quả trong Firestore.
+## Giới hạn
+- Đây là giới hạn **mỗi tên một lần**, không phải mỗi người một lần (một người có thể nhập tên khác; hai người trùng tên cùng nhận một kết quả).
+- Không có đăng nhập nên không thể bảo đảm người chơi không gian lận. Kết quả ngẫu nhiên phía trình duyệt, không phù hợp cho xổ số hoặc giải thưởng có giá trị.
+- Vì ai cũng có quyền đọc tên trong danh sách, chỉ dùng tên/nickname mà người tham gia đồng ý công khai, không thêm dữ liệu nhạy cảm.
+- Rules chặn sửa/xóa và giới hạn số kết quả đọc trong một truy vấn, nhưng không bảo vệ khỏi spam do không xác thực người dùng. Theo dõi Firestore usage.
 
-Tất cả dữ liệu cũ ở collection `travelSpins` (nếu có) không bị xóa; website mới dùng collection `travelNameSpins`.
+Các file web: `quay-du-lich/index.html` và `travel-wheel/index.html`. Cùng dùng cấu hình `firebase-config.js`.
