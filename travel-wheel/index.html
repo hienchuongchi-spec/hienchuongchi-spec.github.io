@@ -152,7 +152,7 @@ const STORAGE_KEY="travel-wheel-name-results-v1";
 const input=el("participant-name");
 const spin=el("spin-btn");
 let busy=false,angle=0;
-function normalizedName(value){return value.normalize("NFKC").replace(/\\s+/g," ").trim();}
+function normalizedName(value){return value.normalize("NFKC").replace(/\s+/g," ").trim();}
 function nameKey(name){return normalizedName(name).toLowerCase();}
 function loadLocal(){
   try {
