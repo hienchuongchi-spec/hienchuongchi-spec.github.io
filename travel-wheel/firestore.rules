@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /travelSpins/{uid} {
+      // A Google user can only read their OWN saved spin.
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list: if false;
+
+      // The unique Firebase UID document ID + immutable document = one spin per Google account.
+      allow create: if request.auth != null
+        && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && request.auth.token.email_verified == true
+        && request.resource.data.keys().hasAll(['uid','displayName','email','resultIndex','result','createdAt'])
+        && request.resource.data.keys().hasOnly(['uid','displayName','email','resultIndex','result','createdAt'])
+        && request.resource.data.uid == uid
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 80
+        && request.resource.data.resultIndex is int
+        && request.resource.data.resultIndex >= 0
+        && request.resource.data.resultIndex <= 3
+        && (
+          (request.resource.data.resultIndex == 0 && request.resource.data.result == 'München')
+          || (request.resource.data.resultIndex == 1 && request.resource.data.result == 'Düsseldorf & Köln')
+          || (request.resource.data.resultIndex == 2 && request.resource.data.result == 'Berlin & Prague')
+          || (request.resource.data.resultIndex == 3 && request.resource.data.result == 'Hamburg')
+        )
+        && request.resource.data.createdAt == request.time;
+
+      // Do not allow replay, changes, or deletions from a browser.
+      allow update, delete: if false;
+    }
+  }
+}
