@@ -70,7 +70,19 @@
     @media(max-width:800px){.hero{padding-top:35px}.main{grid-template-columns:1fr;gap:12px;margin-top:18px}.wheel-stage{width:min(100%,400px)}.panel{width:min(100%,530px);margin:auto}.seg{font-size:clamp(11px,3.5vw,16px)}}
     @media(max-width:440px){.shell{width:calc(100% - 25px);padding-top:18px}.brand{font-size:12px}.pill{font-size:10px;padding:9px 11px}.hero{padding-top:30px}.lead{font-size:13px}.wheel-stage{width:100%}.wheel-shell{border-width:8px}.pointer{border-left-width:15px;border-right-width:15px;border-top-width:28px}.panel{padding:23px 20px}.seg{font-size:11px}.seg .emoji{font-size:23px}.hub{border-width:5px}}
     @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-  </style>
+  
+    .name-label{display:block;margin:2px 0 9px;color:#b9e6d4;letter-spacing:.14em;font-size:11px;font-weight:900}
+    .name-input{width:100%;height:52px;padding:0 15px;margin-bottom:12px;background:#ffffff0c;border:1px solid #ffffff35;border-radius:14px;font:700 15px 'DM Sans',system-ui,sans-serif;color:#fff;outline:0;transition:border-color .2s,box-shadow .2s}
+    .name-input::placeholder{color:#8897b0;font-weight:500}
+    .name-input:focus{border-color:#b8f2cf;box-shadow:0 0 0 3px #b8f2cf22}
+    .saved-list{margin-top:22px;padding-top:18px;border-top:1px solid #ffffff22}
+    .saved-list-header{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#e5f5f0;margin-bottom:9px}
+    .saved-list-header span{color:#98a4bf;font-size:11px}
+    .saved-item{padding:10px 1px;border-bottom:1px solid #ffffff14;display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px}
+    .saved-item:last-child{border-bottom:0}.saved-item .saved-person{color:#f1f5ff;font-weight:750;min-width:0;overflow-wrap:anywhere}
+    .saved-item .saved-city{text-align:right;color:#b4e8d2;max-width:49%;overflow-wrap:anywhere}
+    .saved-item small{color:#8796b0;font-size:10px;display:block;margin-top:4px}
+    </style>
 </head>
 <body>
 <div class="shell">
@@ -78,7 +90,7 @@
   <section class="hero">
     <div class="eyebrow">THE CITY PICKER • 2026</div>
     <h1>Where to <span>next?</span></h1>
-    <p class="lead">4 lựa chọn, 1 chuyến đi bất ngờ. Đăng nhập, quay một lần và khám phá thành phố được chọn cho bạn!</p>
+    <p class="lead">4 lựa chọn, 1 chuyến đi bất ngờ. Nhập tên, quay một lần và khám phá thành phố được chọn cho bạn!</p>
   </section>
   <main class="main">
     <section class="wheel-side" aria-label="Vòng quay các thành phố">
@@ -98,208 +110,225 @@
       </div>
       <p class="hint">↑ KẾT QUẢ Ở MŨI TÊN PHÍA TRÊN ↑</p>
     </section>
-    <section class="panel" aria-label="Đăng nhập và quay">
+    <section class="panel" aria-label="Nhập tên và quay">
       <div class="panel-tag">YOUR NEXT ADVENTURE</div>
       <h2>Đi đâu lần này?</h2>
-      <p class="panel-copy">Mỗi địa điểm có cơ hội trúng như nhau — 25% mỗi ô.</p>
+      <p class="panel-copy">Chỉ cần nhập tên rồi quay. Mỗi thành phố có cơ hội trúng như nhau: 25%.</p>
       <div class="options" aria-label="Các lựa chọn">
         <div class="option"><span class="dot dot0"></span>München</div>
         <div class="option"><span class="dot dot1"></span>Düsseldorf & Köln</div>
         <div class="option"><span class="dot dot2"></span>Berlin & Prague</div>
         <div class="option"><span class="dot dot3"></span>Hamburg</div>
       </div>
-      <div class="account" id="account" hidden>
-        <img id="avatar" alt="" referrerpolicy="no-referrer">
-        <div class="person"><b id="account-name"></b><small>Đã đăng nhập bằng Google</small></div>
-        <button id="logout-btn" class="mini" type="button">Đăng xuất</button>
-      </div>
-      <button id="login-btn" type="button" class="action primary" disabled>Đăng nhập với Google</button>
-      <button id="spin-btn" type="button" class="action primary" hidden disabled>✦ QUAY NGAY ✦</button>
-      <button id="demo-btn" type="button" class="action secondary" hidden>↻ Xem thử vòng quay (không lưu)</button>
-      <div id="status" class="status" role="status" aria-live="polite">Đang tải...</div>
+      <label class="name-label" for="participant-name">TÊN NGƯỜI THAM GIA</label>
+      <input id="participant-name" class="name-input" type="text" maxlength="40" autocomplete="name" placeholder="Nhập tên của bạn..." />
+      <button id="spin-btn" type="button" class="action primary" disabled>✦ QUAY NGAY ✦</button>
+      <div id="status" class="status" role="status" aria-live="polite">Nhập tên để bắt đầu.</div>
       <div id="result" class="result" hidden aria-live="polite">
         <span class="overline">YOUR DESTINATION IS</span>
         <strong id="result-text"></strong>
         <p id="result-detail"></p>
       </div>
-      <p class="subline">🔒 Mỗi tài khoản Google chỉ quay 1 lần. Kết quả được lưu và không thể đổi bằng cách tải lại trang.</p>
+      <div class="saved-list" id="saved-list" hidden>
+        <div class="saved-list-header"><strong>🗂 Kết quả đã lưu trên máy</strong><span id="saved-count"></span></div>
+        <div id="saved-items"></div>
+      </div>
+      <p class="subline">Một tên chỉ có một kết quả. Chưa bật Firestore thì dữ liệu chỉ lưu trên trình duyệt này, không đồng bộ giữa các máy.</p>
     </section>
   </main>
   <div class="foot"><span class="lock">✳</span> Made for the memories · Travel Club</div>
 </div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-  import { firebaseConfig } from "./firebase-config.js";
-
-  const destinations = ["München","Düsseldorf & Köln","Berlin & Prague","Hamburg"];
-  const messages = [
-    "Bavaria đang chờ! Chuẩn bị cho một hành trình thú vị.",
-    "Một chuyến đi khám phá hai thành phố vùng Nordrhein-Westfalen!",
-    "Hai thủ đô đầy lịch sử, văn hóa và những trải nghiệm mới!",
-    "Thành phố cảng phía Bắc nước Đức đang gọi tên bạn!"
-  ];
-  const el = (id)=>document.getElementById(id);
-  let auth, db, currentUser = null, hasResult = false, busy = false, angle = 0;
-  const configured = ["apiKey","authDomain","projectId","appId"].every(key => typeof firebaseConfig[key] === "string" && !firebaseConfig[key].includes("THAY_") && firebaseConfig[key].length > 6);
-
-  function status(message,kind=""){
-    el("status").textContent=message;
-    el("status").className="status" + (kind ? " "+kind : "");
+const el=(id)=>document.getElementById(id);
+const destinations=["München","Düsseldorf & Köln","Berlin & Prague","Hamburg"];
+const messages=[
+  "Bavaria đang chờ! Chuẩn bị cho một hành trình thú vị.",
+  "Hành trình khám phá hai thành phố vùng Nordrhein-Westfalen!",
+  "Hai thủ đô đầy lịch sử, văn hóa và trải nghiệm mới!",
+  "Thành phố cảng phía Bắc nước Đức đang gọi tên bạn!"
+];
+const STORAGE_KEY="travel-wheel-name-results-v1";
+const input=el("participant-name");
+const spin=el("spin-btn");
+let busy=false,angle=0;
+function normalizedName(value){return value.normalize("NFKC").replace(/\\s+/g," ").trim();}
+function nameKey(name){return normalizedName(name).toLowerCase();}
+function loadLocal(){
+  try {
+    const raw=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
+    return raw && typeof raw==="object" && !Array.isArray(raw) ? raw : {};
+  }catch{return {};}
+}
+function saveLocal(key,record){
+  try{const all=loadLocal();all[key]=record;localStorage.setItem(STORAGE_KEY,JSON.stringify(all));return true;}
+  catch{return false;}
+}
+function validResult(record){return record&&Number.isInteger(record.resultIndex)&&record.resultIndex>=0&&record.resultIndex<4;}
+function status(message,kind=""){
+  el("status").textContent=message;
+  el("status").className="status"+(kind?" "+kind:"");
+}
+function secureIndex(){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%4;}
+function turnTo(index,animate){
+  const desired=((360-index*90)%360+360)%360;
+  if(!animate){
+    el("wheel").style.transition="none";
+    angle=desired;
+    el("wheel").style.transform="rotate("+angle+"deg)";
+    requestAnimationFrame(()=>requestAnimationFrame(()=>el("wheel").style.transition=""));
+    return;
   }
-  function randomIndex(){
-    const bytes=new Uint32Array(1);
-    crypto.getRandomValues(bytes);
-    return bytes[0] % 4;
+  const current=((angle%360)+360)%360;
+  angle+=360*7+(desired-current+360)%360;
+  el("wheel").style.transform="rotate("+angle+"deg)";
+}
+function showResult(record,old){
+  el("result").hidden=false;
+  el("result-text").textContent=destinations[record.resultIndex];
+  el("result-detail").textContent=old?"Đây là kết quả đã được lưu cho tên này.":messages[record.resultIndex];
+}
+function confetti(){
+  const layer=el("confetti");layer.replaceChildren();
+  const colors=["#b8f2cf","#a9c8ff","#f8c79c","#f6df8f","#fff"];
+  for(let i=0;i<55;i++){
+    const bit=document.createElement("i");
+    bit.style.left=Math.random()*100+"%";bit.style.background=colors[i%colors.length];
+    bit.style.animationDelay=Math.random()*.6+"s";
+    bit.style.animationDuration=2.7+Math.random()*1.7+"s";
+    bit.style.setProperty("--dx",Math.random()*260-130+"px");
+    layer.appendChild(bit);
   }
-  function turnTo(index,animated){
-    const desired=((360-index*90)%360+360)%360;
-    if(!animated){
-      el("wheel").style.transition="none";
-      angle=desired;
-      el("wheel").style.transform="rotate("+angle+"deg)";
-      requestAnimationFrame(()=>requestAnimationFrame(()=>el("wheel").style.transition=""));
+  setTimeout(()=>layer.replaceChildren(),4500);
+}
+function renderSaved(){
+  const data=Object.values(loadLocal()).filter(validResult).sort((a,b)=>(b.savedAt||"").localeCompare(a.savedAt||""));
+  el("saved-list").hidden=!data.length;
+  el("saved-count").textContent=data.length+" tên";
+  const holder=el("saved-items");holder.replaceChildren();
+  for(const record of data.slice(0,50)){
+    const item=document.createElement("div");item.className="saved-item";
+    const person=document.createElement("div");person.className="saved-person";person.textContent=record.name;
+    const small=document.createElement("small");
+    small.textContent=record.shared?"Đã lưu chung":"Lưu trên máy";
+    person.appendChild(small);
+    const city=document.createElement("div");city.className="saved-city";city.textContent=destinations[record.resultIndex];
+    item.append(person,city);holder.appendChild(item);
+  }
+}
+function inputState(){
+  if(busy)return;
+  const name=normalizedName(input.value);
+  const key=nameKey(name);
+  const local=loadLocal()[key];
+  if(validResult(local)&&name.length>=2){
+    turnTo(local.resultIndex,false);showResult(local,true);
+    spin.textContent="✓ TÊN NÀY ĐÃ QUAY";spin.disabled=true;
+    status(local.shared?"Đã lưu kết quả chung cho tên này.":"Tên này đã quay trên thiết bị này.","ok");
+  }else{
+    el("result").hidden=true;
+    spin.textContent="✦ QUAY NGAY ✦";
+    spin.disabled=name.length<2||name.length>40;
+    status(name.length===0?"Nhập tên để bắt đầu.":name.length<2?"Hãy nhập ít nhất 2 ký tự.":"Sẵn sàng! Nhấn Quay ngay.");
+  }
+}
+async function digestName(key){
+  const bytes=new TextEncoder().encode(key);
+  const digest=await crypto.subtle.digest("SHA-256",bytes);
+  return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
+}
+const cloudReady=(async()=>{
+  try{
+    const [{firebaseConfig},appModule,store]=await Promise.all([
+      import("./firebase-config.js"),
+      import("https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js")
+    ]);
+    const valid=["apiKey","authDomain","projectId","appId"].every(k=>typeof firebaseConfig[k]==="string"&&!firebaseConfig[k].includes("THAY_"));
+    if(!valid)return null;
+    const app=appModule.initializeApp(firebaseConfig);
+    return {db:store.getFirestore(app),doc:store.doc,getDoc:store.getDoc,setDoc:store.setDoc,serverTimestamp:store.serverTimestamp};
+  }catch(error){console.info("Đang dùng bộ nhớ trên thiết bị:",error);return null;}
+})();
+async function atMost(promise,ms){
+  let timeout;
+  try{return await Promise.race([promise,new Promise((_,reject)=>timeout=setTimeout(()=>reject(new Error("timeout")),ms))]);}
+  finally{clearTimeout(timeout);}
+}
+async function cloudSpin(name,key){
+  const cloud=await atMost(cloudReady,7000);
+  if(!cloud)return null;
+  const id=await digestName(key);
+  const ref=cloud.doc(cloud.db,"travelNameSpins",id);
+  try{
+    const snapshot=await atMost(cloud.getDoc(ref),7000);
+    if(snapshot.exists()){
+      const data=snapshot.data();
+      if(!validResult(data))throw Error("invalid result in database");
+      return {record:{name:data.name||name,resultIndex:data.resultIndex,shared:true,savedAt:new Date().toISOString()},old:true};
+    }
+    const index=secureIndex();
+    const record={name,resultIndex:index,shared:true,savedAt:new Date().toISOString()};
+    try{
+      await atMost(cloud.setDoc(ref,{name,resultIndex:index,result:destinations[index],createdAt:cloud.serverTimestamp()}),8000);
+      return {record,old:false};
+    }catch(error){
+      // A concurrent participant may have taken the same name; re-read the immutable result.
+      try{
+        const existing=await atMost(cloud.getDoc(ref),5000);
+        if(existing.exists()&&validResult(existing.data())){
+          const data=existing.data();
+          return {record:{name:data.name||name,resultIndex:data.resultIndex,shared:true,savedAt:new Date().toISOString()},old:true};
+        }
+      }catch{}
+      console.info("Firestore không lưu được:",error);
+      return null;
+    }
+  }catch(error){
+    console.info("Firestore chưa bật hoặc chưa có Rules:",error);
+    return null;
+  }
+}
+spin.addEventListener("click",async()=>{
+  if(busy)return;
+  const name=normalizedName(input.value);
+  if(name.length<2||name.length>40){status("Nhập tên từ 2 đến 40 ký tự.","error");return;}
+  const key=nameKey(name);
+  const already=loadLocal()[key];
+  if(validResult(already)){inputState();return;}
+  busy=true;spin.disabled=true;input.disabled=true;
+  status("Đang kiểm tra và lưu kết quả...");
+  try{
+    let chosen=await cloudSpin(name,key);
+    if(!chosen){
+      chosen={record:{name,resultIndex:secureIndex(),shared:false,savedAt:new Date().toISOString()},old:false};
+    }
+    const {record,old}=chosen;
+    const localSaved=saveLocal(key,record);
+    renderSaved();
+    if(!localSaved&&!record.shared){
+      status("Trình duyệt đang chặn lưu dữ liệu. Vui lòng bật lưu trữ rồi thử lại.","error");
       return;
     }
-    const current=((angle%360)+360)%360;
-    const alignment=(desired-current+360)%360;
-    angle+=360*7+alignment;
-    el("wheel").style.transform="rotate("+angle+"deg)";
-  }
-  function confetti(){
-    const layer=el("confetti");layer.replaceChildren();
-    const colors=["#b8f2cf","#a9c8ff","#f8c79c","#f6df8f","#ffffff"];
-    for(let i=0;i<65;i++){
-      const bit=document.createElement("i");
-      bit.style.left=(Math.random()*100)+"%";
-      bit.style.background=colors[i%colors.length];
-      bit.style.animationDelay=(Math.random()*.7)+"s";
-      bit.style.animationDuration=(2.7+Math.random()*1.7)+"s";
-      bit.style.setProperty("--dx",(Math.random()*280-140)+"px");
-      layer.appendChild(bit);
+    spin.textContent="✓ TÊN NÀY ĐÃ QUAY";
+    if(old){
+      turnTo(record.resultIndex,false);showResult(record,true);
+      status("Tên này đã có kết quả được lưu chung.","ok");
+    }else{
+      turnTo(record.resultIndex,true);
+      status(record.shared?"Đã lưu chung vào Firebase. Đang quay...":"Đã lưu trên thiết bị này. Đang quay...",record.shared?"ok":"");
+      await new Promise(resolve=>setTimeout(resolve,5100));
+      showResult(record,false);confetti();
+      status(record.shared?"Đã lưu chung thành công!":"Kết quả đã lưu trên thiết bị này. Để lưu chung trên mọi máy, cần bật Firestore.",record.shared?"ok":"");
     }
-    setTimeout(()=>layer.replaceChildren(),4800);
-  }
-  function displayResult(index,old){
-    el("result").hidden=false;
-    el("result-text").textContent=destinations[index];
-    el("result-detail").textContent=old ? "Đây là kết quả đã lưu của tài khoản bạn. Bạn không thể quay lại." : messages[index];
-  }
-  function revealUser(user){
-    el("login-btn").hidden=!!user;
-    el("spin-btn").hidden=!user;
-    el("account").hidden=!user;
-    if(!user)return;
-    el("account-name").textContent=user.displayName || user.email || "Google account";
-    const avatar=el("avatar");
-    if(user.photoURL){ avatar.src=user.photoURL; avatar.hidden=false; } else { avatar.removeAttribute("src"); avatar.hidden=true; }
-  }
-  function lockSpin(locked){
-    el("spin-btn").disabled=locked;
-  }
-  async function refreshUser(user){
-    currentUser=user;
-    hasResult=false;
-    el("result").hidden=true;
-    revealUser(user);
-    if(!user){status("Đăng nhập Google để mở khóa 1 lượt quay của bạn.");return;}
-    status("Đang kiểm tra kết quả đã lưu...");
-    lockSpin(true);
-    try{
-      const snap=await getDoc(doc(db,"travelSpins",user.uid));
-      if(currentUser?.uid!==user.uid)return;
-      if(snap.exists()){
-        const data=snap.data();
-        const index=data.resultIndex;
-        if(!Number.isInteger(index)||index<0||index>=4)throw new Error("Kết quả trong cơ sở dữ liệu không hợp lệ.");
-        hasResult=true;
-        turnTo(index,false);
-        displayResult(index,true);
-        status("Tài khoản này đã sử dụng lượt quay.", "ok");
-        el("spin-btn").textContent="✓ ĐÃ QUAY";
-      }else{
-        el("spin-btn").textContent="✦ QUAY NGAY ✦";
-        status("Sẵn sàng! Mỗi tài khoản chỉ được lưu 1 kết quả.", "ok");
-        lockSpin(false);
-      }
-    }catch(error){
-      console.error(error);
-      status("Không kiểm tra được dữ liệu. Hãy kiểm tra Firebase / Firestore Rules và thử tải lại trang.", "error");
-    }
-  }
-  el("login-btn").addEventListener("click",async()=>{
-    if(!auth)return;
-    el("login-btn").disabled=true;
-    try{await signInWithPopup(auth,new GoogleAuthProvider());}
-    catch(error){
-      console.error(error);
-      const code=error.code || "";
-      if(code==="auth/popup-closed-by-user"||code==="auth/cancelled-popup-request")status("Bạn đã đóng cửa sổ đăng nhập.");
-      else if(code==="auth/unauthorized-domain")status("Chưa thêm tên miền GitHub Pages vào Firebase Authentication → Authorized domains.", "error");
-      else status("Đăng nhập không thành công: "+code, "error");
-    }finally{el("login-btn").disabled=false;}
-  });
-  el("logout-btn").addEventListener("click",async()=>{
-    if(busy)return;
-    try{await signOut(auth);}catch(error){status("Đăng xuất không thành công.", "error");}
-  });
-  el("spin-btn").addEventListener("click",async()=>{
-    if(!currentUser||busy||hasResult)return;
-    busy=true;
-    lockSpin(true);
-    const user=currentUser;
-    const index=randomIndex();
-    status("Đang khóa và lưu lượt quay của bạn...");
-    try{
-      // document ID = authenticated Firebase UID; Firestore rules allow CREATE only.
-      await setDoc(doc(db,"travelSpins",user.uid),{
-        uid:user.uid,
-        displayName:(user.displayName || "Người tham gia").slice(0,80),
-        email:user.email || "",
-        resultIndex:index,
-        result:destinations[index],
-        createdAt:serverTimestamp()
-      });
-      hasResult=true;
-      el("spin-btn").textContent="✓ ĐÃ QUAY";
-      status("Đã lưu kết quả. Vòng quay đang chạy...", "ok");
-      turnTo(index,true);
-      setTimeout(()=>{displayResult(index,false);status("Lưu thành công! Mỗi tài khoản chỉ được quay một lần.", "ok");confetti();},5100);
-    }catch(error){
-      console.error(error);
-      status("Không lưu được lượt quay. Đang kiểm tra tài khoản...", "error");
-      await refreshUser(user);
-    }finally{busy=false;}
-  });
-  if(!configured){
-    status("Chế độ xem thử: chủ website cần cài đặt Firebase để bật đăng nhập và lưu lượt quay.");
-    el("login-btn").disabled=true;
-    el("demo-btn").hidden=false;
-    el("demo-btn").addEventListener("click",()=>{
-      if(busy)return;
-      busy=true;
-      el("result").hidden=true;
-      el("demo-btn").disabled=true;
-      const index=randomIndex();
-      turnTo(index,true);
-      status("Đang chạy bản xem thử — kết quả này không được lưu.");
-      setTimeout(()=>{displayResult(index,false);status("Đây là bản xem thử, không tính lượt quay thật.");el("demo-btn").disabled=false;busy=false;confetti();},5100);
-    });
-  }else{
-    try{
-      const app=initializeApp(firebaseConfig);
-      auth=getAuth(app);
-      db=getFirestore(app);
-      el("login-btn").disabled=false;
-      status("Đăng nhập Google để mở khóa lượt quay.");
-      onAuthStateChanged(auth,refreshUser,error=>status("Không thể kết nối Firebase: "+(error.code||error.message),"error"));
-    }catch(error){
-      console.error(error);
-      status("Firebase chưa được cấu hình chính xác: "+error.message,"error");
-    }
-  }
+  }catch(error){
+    console.error(error);
+    status("Không thể lưu lượt quay. Hãy thử lại.","error");
+  }finally{busy=false;input.disabled=false;inputState();renderSaved();}
+});
+input.addEventListener("input",inputState);
+input.addEventListener("keydown",event=>{if(event.key==="Enter"&&!spin.disabled)spin.click();});
+renderSaved();inputState();
 </script>
 </body>
 </html>
