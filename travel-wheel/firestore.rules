@@ -3,9 +3,10 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /travelNameSpins/{nameHash} {
       // Không cần tài khoản Google. Mỗi tên có một mã SHA-256 cố định.
-      // Người tham gia có thể xem kết quả cho tên mình nhập, nhưng không thể liệt kê cả bộ dữ liệu.
+      // Tên và kết quả công khai với người mở website.
+      // Chỉ cho phép truy vấn tối đa 100 bản ghi mỗi lần để hạn chế tải dữ liệu.
       allow get: if true;
-      allow list: if false;
+      allow list: if request.query.limit != null && request.query.limit <= 100;
       // Tạo một lần, không cho sửa hoặc xóa (chỉ project owner có thể thao tác trong Console).
       allow create: if nameHash.matches('^[0-9a-f]{64}$')
         && request.resource.data.keys().hasAll(['name','resultIndex','result','createdAt'])
