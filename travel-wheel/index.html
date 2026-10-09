@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0c1228" />
+  <meta name="description" content="Vòng quay thành phố du lịch. Đăng nhập Google, mỗi tài khoản quay một lần và kết quả được lưu." />
+  <title>Where to next? — Vòng quay du lịch</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+    :root{color-scheme:dark;--ink:#f6f7ff;--muted:#a6afc7;--border:rgba(255,255,255,.14);--dark:#0c1228;--glass:rgba(23,31,56,.78)}
+    *{box-sizing:border-box}html{min-height:100%;scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;background:radial-gradient(ellipse 65% 50% at 7% 6%,#233767 0,transparent 76%),radial-gradient(ellipse 45% 45% at 98% 100%,#183d43 0,transparent 80%),#0c1228;overflow-x:hidden}
+    body:before{content:'';position:fixed;inset:0;background-image:radial-gradient(#f7faff3b 1px,transparent 1px);background-size:29px 29px;opacity:.13;pointer-events:none}
+    button{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid #c6edc8;outline-offset:4px}
+    .shell{width:min(1120px,calc(100% - 36px));margin:auto;padding:34px 0 62px;position:relative}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;font:800 15px 'Outfit',sans-serif;letter-spacing:.13em;text-transform:uppercase}
+    .brand .mark{display:grid;place-items:center;width:38px;height:38px;border:1px solid #ffffff4b;border-radius:13px;background:#ffffff15;font-size:20px}
+    .pill{border:1px solid var(--border);border-radius:50px;padding:10px 15px;color:#e9f4f7;background:#ffffff09;font-size:12px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
+    .hero{text-align:center;padding-top:45px}
+    .eyebrow{color:#b8ebdc;font-size:12px;font-weight:800;letter-spacing:.26em;text-transform:uppercase}
+    h1{font:900 clamp(38px,6.7vw,77px)/1.04 'Outfit',sans-serif;letter-spacing:-.05em;margin:16px auto 14px}
+    h1 span{background:linear-gradient(90deg,#c3e7ff 0%,#d7f7ce 48%,#ffe5aa 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
+    .lead{margin:0 auto;max-width:570px;color:#b3bdd7;font-size:15px;line-height:1.7}
+    .main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(310px,.9fr);gap:35px;align-items:center;margin-top:39px}
+    .wheel-side{min-width:0;display:grid;place-items:center;padding:10px}
+    .wheel-stage{width:min(100%,480px);aspect-ratio:1;position:relative;display:grid;place-items:center}
+    .glow{position:absolute;inset:6%;border-radius:50%;background:conic-gradient(#b2e5c766,#9dc6ff55,#ffc2a355,#ffde9255,#b2e5c766);filter:blur(38px);opacity:.5}
+    .wheel-shell{position:relative;width:90%;aspect-ratio:1;border:11px solid #f6f4e8;border-radius:50%;box-shadow:0 0 0 6px #ffffff24,0 25px 80px #0007,inset 0 0 0 5px #ffffff46;background:#fff;overflow:hidden}
+    .wheel{width:100%;height:100%;position:relative;border-radius:50%;background:conic-gradient(from -45deg,#addcc3 0 90deg,#9bbcf1 90deg 180deg,#ffbf9d 180deg 270deg,#f8d885 270deg 360deg);transform:rotate(0deg);transition:transform 5s cubic-bezier(.13,.78,.1,1)}
+    .wheel:after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,#ffffff36,transparent 46%,#00000014);pointer-events:none;border-radius:50%}
+    .cross{position:absolute;inset:0;background:linear-gradient(to right,transparent calc(50% - 1px),#ffffff88 calc(50% - 1px),#ffffff88 calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(to bottom,transparent calc(50% - 1px),#ffffff88 calc(50% - 1px),#ffffff88 calc(50% + 1px),transparent calc(50% + 1px));opacity:.65;transform:rotate(45deg)}
+    .seg{position:absolute;text-align:center;color:#1c283b;font:900 clamp(11px,1.4vw,17px)/1.22 'Outfit',sans-serif;letter-spacing:.035em;text-shadow:0 1px #ffffff55;white-space:nowrap;transform:translate(-50%,-50%);z-index:1}
+    .seg .emoji{display:block;font-size:clamp(20px,3vw,30px);margin-bottom:5px}.seg small{font-size:.77em}
+    .s0{left:50%;top:21%}.s1{left:78%;top:50%}.s2{left:50%;top:79%}.s3{left:22%;top:50%}
+    .pointer{position:absolute;z-index:4;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:35px solid #fff;filter:drop-shadow(0 5px 4px #0007)}
+    .hub{position:absolute;z-index:3;inset:44%;border:7px solid #f9f7e8;background:#101c32;border-radius:50%;box-shadow:0 5px 18px #0008;display:grid;place-items:center;font-size:22px}
+    .hint{font-size:12px;color:#98a4bf;margin-top:10px;letter-spacing:.08em}
+    .panel{border:1px solid var(--border);border-radius:30px;background:var(--glass);box-shadow:0 22px 65px #0004;backdrop-filter:blur(16px);padding:31px}
+    .panel-tag{font-size:11px;letter-spacing:.19em;text-transform:uppercase;font-weight:800;color:#b2e8d1;margin-bottom:8px}
+    h2{margin:0 0 12px;font:800 29px/1.17 'Outfit',sans-serif;letter-spacing:-.025em}
+    .panel-copy{color:var(--muted);font-size:14px;line-height:1.7;margin:0 0 22px}
+    .options{display:grid;gap:9px;margin-bottom:24px}
+    .option{display:flex;align-items:center;gap:13px;padding:11px 13px;background:#ffffff09;border:1px solid #ffffff10;border-radius:13px;color:#edf0fa;font-weight:700;font-size:13px}
+    .option .dot{width:13px;height:13px;border-radius:50%;flex:none}.dot0{background:#addcc3}.dot1{background:#9bbcf1}.dot2{background:#ffbf9d}.dot3{background:#f8d885}
+    .action{width:100%;border:0;padding:17px 18px;border-radius:16px;font-size:15px;cursor:pointer;font-weight:900;transition:transform .15s,opacity .15s,filter .15s}
+    .action:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.05)}
+    .action:disabled{cursor:not-allowed;opacity:.48}
+    .primary{color:#10233b;background:linear-gradient(110deg,#b8f2cf,#c2e7ff 56%,#e6dfb1);box-shadow:0 9px 28px #8bd7c91a}
+    .secondary{color:#f3f8ff;background:#ffffff13;border:1px solid #ffffff20;margin-top:10px}
+    .subline{margin:15px 0 0;color:#8f9ebc;font-size:11px;line-height:1.65;text-align:center}
+    .account{display:flex;align-items:center;gap:10px;margin:0 0 18px;padding:11px 12px;border:1px solid #ffffff1a;border-radius:13px;background:#ffffff0b}
+    .account img{height:35px;width:35px;object-fit:cover;border-radius:50%;background:#ffffff16}
+    .account .person{flex:1;min-width:0}.account b{font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.account small{font-size:11px;color:#a3aec7}
+    .mini{padding:5px 7px;border:0;background:transparent;color:#d0d9ec;text-decoration:underline;font-weight:700;font-size:11px;cursor:pointer}
+    .status{padding:12px 14px;border:1px solid #ffffff1b;border-radius:13px;background:#ffffff0a;color:#c8d4e9;font-size:12px;line-height:1.6;margin-top:15px}
+    .status.error{background:#ff868611;border-color:#ff8c8c47;color:#ffcac6}
+    .status.ok{background:#a5efca11;border-color:#a5efca47;color:#d5fae8}
+    .result{margin-top:18px;padding:19px 16px;border:1px solid #c7edc144;border-radius:18px;text-align:center;background:linear-gradient(120deg,#9de3c617,#b3d8ff16)}
+    .result .overline{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#b1eecf}
+    .result strong{display:block;font:900 27px/1.2 'Outfit',sans-serif;margin:9px 0;letter-spacing:-.02em}
+    .result p{margin:0;color:#c0cfe3;font-size:12px;line-height:1.6}
+    .foot{display:flex;justify-content:center;gap:8px;align-items:center;text-align:center;padding-top:35px;font-size:12px;color:#7987a2}
+    .foot .lock{color:#b1e8cc}
+    .confetti{pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:10}
+    .confetti i{display:block;position:absolute;top:-25px;width:8px;height:13px;animation:fall 3.5s linear forwards;opacity:.9}
+    @keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(850deg);opacity:0}}
+    [hidden]{display:none!important}
+    @media(max-width:800px){.hero{padding-top:35px}.main{grid-template-columns:1fr;gap:12px;margin-top:18px}.wheel-stage{width:min(100%,400px)}.panel{width:min(100%,530px);margin:auto}.seg{font-size:clamp(11px,3.5vw,16px)}}
+    @media(max-width:440px){.shell{width:calc(100% - 25px);padding-top:18px}.brand{font-size:12px}.pill{font-size:10px;padding:9px 11px}.hero{padding-top:30px}.lead{font-size:13px}.wheel-stage{width:100%}.wheel-shell{border-width:8px}.pointer{border-left-width:15px;border-right-width:15px;border-top-width:28px}.panel{padding:23px 20px}.seg{font-size:11px}.seg .emoji{font-size:23px}.hub{border-width:5px}}
+    @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header><div class="brand"><span class="mark">✈</span> TRAVEL CLUB</div><span class="pill">ONE SHOT · ONE DESTINATION</span></header>
+  <section class="hero">
+    <div class="eyebrow">THE CITY PICKER • 2026</div>
+    <h1>Where to <span>next?</span></h1>
+    <p class="lead">4 lựa chọn, 1 chuyến đi bất ngờ. Đăng nhập, quay một lần và khám phá thành phố được chọn cho bạn!</p>
+  </section>
+  <main class="main">
+    <section class="wheel-side" aria-label="Vòng quay các thành phố">
+      <div class="wheel-stage">
+        <div class="glow"></div>
+        <div class="wheel-shell">
+          <div class="wheel" id="wheel" aria-label="4 ô vòng quay: München, Düsseldorf và Köln, Berlin và Prague, Hamburg">
+            <div class="cross"></div>
+            <div class="seg s0"><span class="emoji">🏔️</span>MÜNCHEN</div>
+            <div class="seg s1"><span class="emoji">🌉</span>DÜSSELDORF<br><small>& KÖLN</small></div>
+            <div class="seg s2"><span class="emoji">🏛️</span>BERLIN<br><small>& PRAGUE</small></div>
+            <div class="seg s3"><span class="emoji">⚓</span>HAMBURG</div>
+          </div>
+          <div class="hub">✦</div>
+        </div>
+        <div class="pointer" aria-hidden="true"></div>
+      </div>
+      <p class="hint">↑ KẾT QUẢ Ở MŨI TÊN PHÍA TRÊN ↑</p>
+    </section>
+    <section class="panel" aria-label="Đăng nhập và quay">
+      <div class="panel-tag">YOUR NEXT ADVENTURE</div>
+      <h2>Đi đâu lần này?</h2>
+      <p class="panel-copy">Mỗi địa điểm có cơ hội trúng như nhau — 25% mỗi ô.</p>
+      <div class="options" aria-label="Các lựa chọn">
+        <div class="option"><span class="dot dot0"></span>München</div>
+        <div class="option"><span class="dot dot1"></span>Düsseldorf & Köln</div>
+        <div class="option"><span class="dot dot2"></span>Berlin & Prague</div>
+        <div class="option"><span class="dot dot3"></span>Hamburg</div>
+      </div>
+      <div class="account" id="account" hidden>
+        <img id="avatar" alt="" referrerpolicy="no-referrer">
+        <div class="person"><b id="account-name"></b><small>Đã đăng nhập bằng Google</small></div>
+        <button id="logout-btn" class="mini" type="button">Đăng xuất</button>
+      </div>
+      <button id="login-btn" type="button" class="action primary" disabled>Đăng nhập với Google</button>
+      <button id="spin-btn" type="button" class="action primary" hidden disabled>✦ QUAY NGAY ✦</button>
+      <button id="demo-btn" type="button" class="action secondary" hidden>↻ Xem thử vòng quay (không lưu)</button>
+      <div id="status" class="status" role="status" aria-live="polite">Đang tải...</div>
+      <div id="result" class="result" hidden aria-live="polite">
+        <span class="overline">YOUR DESTINATION IS</span>
+        <strong id="result-text"></strong>
+        <p id="result-detail"></p>
+      </div>
+      <p class="subline">🔒 Mỗi tài khoản Google chỉ quay 1 lần. Kết quả được lưu và không thể đổi bằng cách tải lại trang.</p>
+    </section>
+  </main>
+  <div class="foot"><span class="lock">✳</span> Made for the memories · Travel Club</div>
+</div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+  import { firebaseConfig } from "./firebase-config.js";
+
+  const destinations = ["München","Düsseldorf & Köln","Berlin & Prague","Hamburg"];
+  const messages = [
+    "Bavaria đang chờ! Chuẩn bị cho một hành trình thú vị.",
+    "Một chuyến đi khám phá hai thành phố vùng Nordrhein-Westfalen!",
+    "Hai thủ đô đầy lịch sử, văn hóa và những trải nghiệm mới!",
+    "Thành phố cảng phía Bắc nước Đức đang gọi tên bạn!"
+  ];
+  const el = (id)=>document.getElementById(id);
+  let auth, db, currentUser = null, hasResult = false, busy = false, angle = 0;
+  const configured = ["apiKey","authDomain","projectId","appId"].every(key => typeof firebaseConfig[key] === "string" && !firebaseConfig[key].includes("THAY_") && firebaseConfig[key].length > 6);
+
+  function status(message,kind=""){
+    el("status").textContent=message;
+    el("status").className="status" + (kind ? " "+kind : "");
+  }
+  function randomIndex(){
+    const bytes=new Uint32Array(1);
+    crypto.getRandomValues(bytes);
+    return bytes[0] % 4;
+  }
+  function turnTo(index,animated){
+    const desired=((360-index*90)%360+360)%360;
+    if(!animated){
+      el("wheel").style.transition="none";
+      angle=desired;
+      el("wheel").style.transform="rotate("+angle+"deg)";
+      requestAnimationFrame(()=>requestAnimationFrame(()=>el("wheel").style.transition=""));
+      return;
+    }
+    const current=((angle%360)+360)%360;
+    const alignment=(desired-current+360)%360;
+    angle+=360*7+alignment;
+    el("wheel").style.transform="rotate("+angle+"deg)";
+  }
+  function confetti(){
+    const layer=el("confetti");layer.replaceChildren();
+    const colors=["#b8f2cf","#a9c8ff","#f8c79c","#f6df8f","#ffffff"];
+    for(let i=0;i<65;i++){
+      const bit=document.createElement("i");
+      bit.style.left=(Math.random()*100)+"%";
+      bit.style.background=colors[i%colors.length];
+      bit.style.animationDelay=(Math.random()*.7)+"s";
+      bit.style.animationDuration=(2.7+Math.random()*1.7)+"s";
+      bit.style.setProperty("--dx",(Math.random()*280-140)+"px");
+      layer.appendChild(bit);
+    }
+    setTimeout(()=>layer.replaceChildren(),4800);
+  }
+  function displayResult(index,old){
+    el("result").hidden=false;
+    el("result-text").textContent=destinations[index];
+    el("result-detail").textContent=old ? "Đây là kết quả đã lưu của tài khoản bạn. Bạn không thể quay lại." : messages[index];
+  }
+  function revealUser(user){
+    el("login-btn").hidden=!!user;
+    el("spin-btn").hidden=!user;
+    el("account").hidden=!user;
+    if(!user)return;
+    el("account-name").textContent=user.displayName || user.email || "Google account";
+    const avatar=el("avatar");
+    if(user.photoURL){ avatar.src=user.photoURL; avatar.hidden=false; } else { avatar.removeAttribute("src"); avatar.hidden=true; }
+  }
+  function lockSpin(locked){
+    el("spin-btn").disabled=locked;
+  }
+  async function refreshUser(user){
+    currentUser=user;
+    hasResult=false;
+    el("result").hidden=true;
+    revealUser(user);
+    if(!user){status("Đăng nhập Google để mở khóa 1 lượt quay của bạn.");return;}
+    status("Đang kiểm tra kết quả đã lưu...");
+    lockSpin(true);
+    try{
+      const snap=await getDoc(doc(db,"travelSpins",user.uid));
+      if(currentUser?.uid!==user.uid)return;
+      if(snap.exists()){
+        const data=snap.data();
+        const index=data.resultIndex;
+        if(!Number.isInteger(index)||index<0||index>=4)throw new Error("Kết quả trong cơ sở dữ liệu không hợp lệ.");
+        hasResult=true;
+        turnTo(index,false);
+        displayResult(index,true);
+        status("Tài khoản này đã sử dụng lượt quay.", "ok");
+        el("spin-btn").textContent="✓ ĐÃ QUAY";
+      }else{
+        el("spin-btn").textContent="✦ QUAY NGAY ✦";
+        status("Sẵn sàng! Mỗi tài khoản chỉ được lưu 1 kết quả.", "ok");
+        lockSpin(false);
+      }
+    }catch(error){
+      console.error(error);
+      status("Không kiểm tra được dữ liệu. Hãy kiểm tra Firebase / Firestore Rules và thử tải lại trang.", "error");
+    }
+  }
+  el("login-btn").addEventListener("click",async()=>{
+    if(!auth)return;
+    el("login-btn").disabled=true;
+    try{await signInWithPopup(auth,new GoogleAuthProvider());}
+    catch(error){
+      console.error(error);
+      const code=error.code || "";
+      if(code==="auth/popup-closed-by-user"||code==="auth/cancelled-popup-request")status("Bạn đã đóng cửa sổ đăng nhập.");
+      else if(code==="auth/unauthorized-domain")status("Chưa thêm tên miền GitHub Pages vào Firebase Authentication → Authorized domains.", "error");
+      else status("Đăng nhập không thành công: "+code, "error");
+    }finally{el("login-btn").disabled=false;}
+  });
+  el("logout-btn").addEventListener("click",async()=>{
+    if(busy)return;
+    try{await signOut(auth);}catch(error){status("Đăng xuất không thành công.", "error");}
+  });
+  el("spin-btn").addEventListener("click",async()=>{
+    if(!currentUser||busy||hasResult)return;
+    busy=true;
+    lockSpin(true);
+    const user=currentUser;
+    const index=randomIndex();
+    status("Đang khóa và lưu lượt quay của bạn...");
+    try{
+      // document ID = authenticated Firebase UID; Firestore rules allow CREATE only.
+      await setDoc(doc(db,"travelSpins",user.uid),{
+        uid:user.uid,
+        displayName:(user.displayName || "Người tham gia").slice(0,80),
+        email:user.email || "",
+        resultIndex:index,
+        result:destinations[index],
+        createdAt:serverTimestamp()
+      });
+      hasResult=true;
+      el("spin-btn").textContent="✓ ĐÃ QUAY";
+      status("Đã lưu kết quả. Vòng quay đang chạy...", "ok");
+      turnTo(index,true);
+      setTimeout(()=>{displayResult(index,false);status("Lưu thành công! Mỗi tài khoản chỉ được quay một lần.", "ok");confetti();},5100);
+    }catch(error){
+      console.error(error);
+      status("Không lưu được lượt quay. Đang kiểm tra tài khoản...", "error");
+      await refreshUser(user);
+    }finally{busy=false;}
+  });
+  if(!configured){
+    status("Chế độ xem thử: chủ website cần cài đặt Firebase để bật đăng nhập và lưu lượt quay.");
+    el("login-btn").disabled=true;
+    el("demo-btn").hidden=false;
+    el("demo-btn").addEventListener("click",()=>{
+      if(busy)return;
+      busy=true;
+      el("result").hidden=true;
+      el("demo-btn").disabled=true;
+      const index=randomIndex();
+      turnTo(index,true);
+      status("Đang chạy bản xem thử — kết quả này không được lưu.");
+      setTimeout(()=>{displayResult(index,false);status("Đây là bản xem thử, không tính lượt quay thật.");el("demo-btn").disabled=false;busy=false;confetti();},5100);
+    });
+  }else{
+    try{
+      const app=initializeApp(firebaseConfig);
+      auth=getAuth(app);
+      db=getFirestore(app);
+      el("login-btn").disabled=false;
+      status("Đăng nhập Google để mở khóa lượt quay.");
+      onAuthStateChanged(auth,refreshUser,error=>status("Không thể kết nối Firebase: "+(error.code||error.message),"error"));
+    }catch(error){
+      console.error(error);
+      status("Firebase chưa được cấu hình chính xác: "+error.message,"error");
+    }
+  }
+</script>
+</body>
+</html>
